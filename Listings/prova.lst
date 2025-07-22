@@ -1,0 +1,416 @@
+C51 COMPILER V9.60.7.0   PROVA                                                             07/22/2025 20:39:34 PAGE 1   
+
+
+C51 COMPILER V9.60.7.0, COMPILATION OF MODULE PROVA
+OBJECT MODULE PLACED IN .\Objects\prova.obj
+COMPILER INVOKED BY: C:\Keil_v5\C51\BIN\C51.EXE prova.c OPTIMIZE(8,SIZE) BROWSE DEBUG OBJECTEXTEND PRINT(.\Listings\prov
+                    -a.lst) TABS(2) OBJECT(.\Objects\prova.obj)
+
+line level    source
+
+   1          #include <REGX52.H>
+   2          
+   3          // === Barramento ===
+   4          #define GlcdDataBus  P1
+   5          sbit RS  = P2^0;
+   6          sbit RW  = P2^1;
+   7          sbit EN  = P2^2;
+   8          sbit CS1 = P2^3;
+   9          sbit CS2 = P2^4;
+  10          
+  11          // === Bot�es ===
+  12          sbit BTN_LEFT  = P3^2;
+  13          sbit BTN_RIGHT = P3^3;
+  14          
+  15          // === Caracteres personalizados ===
+  16          code unsigned char GLYPHS[][6] = {
+  17              {0x00, 0x00, 0x00, 0x00, 0x00, 0x00}, // 0: SPACE
+  18              {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF}, // 1: PIXEL
+  19              {0x15, 0x0E, 0x1F, 0x0E, 0x15, 0x00}, // 2: LADO
+  20              {0x0A, 0x1F, 0x12, 0x12, 0x1F, 0x0A}, // 3: CARRINHO
+  21              {0x0A, 0x1F, 0x12, 0x12, 0x1F, 0x0A}, // 4: CARRINHOMAL
+  22              {0xF5, 0xE0, 0xED, 0xED, 0xE0, 0xF5}, // 5: CARRINHONOITE
+  23              {0xEA, 0xF1, 0xE0, 0xF1, 0xEA, 0xFF}, // 6: LADONOITE
+  24              {0x18, 0x10, 0x00, 0x00, 0x10, 0x18}, // 7: FAROL
+  25          };
+  26          
+  27          code unsigned char LETRAS[13][6] = {
+  28              {0x3E, 0x41, 0x41, 0x41, 0x3E, 0x00}, // 0 - 'O'
+  29              {0x7F, 0x02, 0x0C, 0x30, 0x7F, 0x00}, // 1 - 'N'
+  30              {0x7F, 0x41, 0x41, 0x22, 0x1C, 0x00}, // 2 - 'D'
+  31              {0x7F, 0x49, 0x49, 0x49, 0x41, 0x00}, // 3 - 'E'
+  32              {0x1F, 0x20, 0x40, 0x20, 0x1F, 0x00}, // 4 - 'V'
+  33              {0x3E, 0x41, 0x41, 0x41, 0x22, 0x00}, // 5 - 'C'
+  34              {0x01, 0x01, 0x7F, 0x01, 0x01, 0x00}, // 6 - 'T'
+  35              {0x41, 0x41, 0x7F, 0x41, 0x41, 0x00}, // 7 - 'I'
+  36              {0x02, 0x01, 0x59, 0x09, 0x06, 0x00}, // 8 - '?'
+  37              {0x7E, 0x09, 0x09, 0x09, 0x7E, 0x00}, // 9 - 'A'
+  38              {0x00, 0x00, 0x5F, 0x00, 0x00, 0x00}, // 10 - '!' 
+  39              {0x00, 0x00, 0x00, 0x00, 0x00, 0x00}, // 11 - ' '
+  40            {0x3F, 0x40, 0x40, 0x40, 0x3F, 0x00}, // 12 - 'U'
+  41          };
+  42          
+  43          code unsigned char NUMEROS[13][6] = {
+  44              {0x3E, 0x45, 0x49, 0x51, 0x3E, 0x00}, // 0
+  45              {0x00, 0x21, 0x7F, 0x01, 0x00, 0x00}, // 1
+  46              {0x23, 0x45, 0x49, 0x51, 0x21, 0x00}, // 2
+  47              {0x42, 0x41, 0x51, 0x69, 0x46, 0x00}, // 3
+  48              {0x0C, 0x14, 0x24, 0x7F, 0x04, 0x00}, // 4
+  49              {0x72, 0x51, 0x51, 0x51, 0x4E, 0x00}, // 5
+  50              {0x1E, 0x29, 0x49, 0x49, 0x06, 0x00}, // 6
+  51              {0x40, 0x47, 0x48, 0x50, 0x60, 0x00}, // 7
+  52              {0x36, 0x49, 0x49, 0x49, 0x36, 0x00}, // 8
+  53              {0x30, 0x49, 0x49, 0x4A, 0x3C, 0x00}, // 9
+  54              {0x00, 0x00, 0x06, 0x06, 0x00, 0x00}, // '.'
+C51 COMPILER V9.60.7.0   PROVA                                                             07/22/2025 20:39:34 PAGE 2   
+
+  55              {0x7F, 0x08, 0x14, 0x22, 0x41, 0x00}, // 'k'
+  56              {0xFE, 0x60, 0x18, 0x60, 0xFE, 0x00}, // 'M'
+  57          };
+  58          
+  59          // === Linhas ===
+  60          idata unsigned char linha1[10], linha2[10], linha3[10], linha4[10];
+  61          idata unsigned char linha5[10], linha6[10], linha7[10], linha8[10];
+  62          
+  63          // === Carrinho jogador ===
+  64          unsigned char carrinhoPos = 4;
+  65          
+  66          // === Paredes para curvas ===
+  67          unsigned char leftWall = 0;
+  68          unsigned char rightWall = 9;
+  69          
+  70          // === Vari�veis auxiliares ===
+  71          unsigned char frameCount = 0;  // para controlar espa�amento dos inimigos
+  72          unsigned char seed = 3;        // semente simples para pseudo-random
+  73          unsigned char morte = 0;       // 0 = parede, 1 = batida
+  74          unsigned int distancia = 0;    // em d�cimos de km (ex: 12 = 1.2km)
+  75          
+  76          // === T�nel ===
+  77          bit modoTunel = 0;
+  78          
+  79          // === Delay ===
+  80          void delay(int t) {
+  81   1          int i, j;
+  82   1          for(i = 0; i < t; i++)
+  83   1              for(j = 0; j < 10; j++);
+  84   1      }
+  85          
+  86          // === GLCD ===
+  87          void Glcd_SelectPage0() { CS1 = 0; CS2 = 1; }
+  88          void Glcd_SelectPage1() { CS1 = 1; CS2 = 0; }
+  89          
+  90          void Glcd_CmdWrite(char cmd) {
+  91   1          GlcdDataBus = cmd;
+  92   1          RS = 0; RW = 0;
+  93   1          EN = 1; delay(1); EN = 0; delay(1);
+  94   1      }
+  95          
+  96          void Glcd_DataWrite(char dat) {
+  97   1          GlcdDataBus = dat;
+  98   1          RS = 1; RW = 0;
+  99   1          EN = 1; delay(1); EN = 0; delay(1);
+ 100   1      }
+ 101          
+ 102          void Glcd_DisplayChar(unsigned char *symbol) {
+ 103   1          int i;
+ 104   1          for(i = 0; i < 6; i++)
+ 105   1              Glcd_DataWrite(symbol[i]);
+ 106   1      }
+ 107          
+ 108          void Glcd_PrintLine(unsigned char *line, int length) {
+ 109   1          int i;
+ 110   1          for(i = 0; i < length; i++)
+ 111   1              Glcd_DisplayChar(GLYPHS[line[i]]);
+ 112   1      }
+ 113          
+ 114          // === Inverte alguns caracteres que estavam sendo mostrados de ponta cabe�a ===
+ 115          unsigned char reverseBits(unsigned char b) {
+ 116   1          b = (b & 0xF0) >> 4 | (b & 0x0F) << 4;
+C51 COMPILER V9.60.7.0   PROVA                                                             07/22/2025 20:39:34 PAGE 3   
+
+ 117   1          b = (b & 0xCC) >> 2 | (b & 0x33) << 2;
+ 118   1          b = (b & 0xAA) >> 1 | (b & 0x55) << 1;
+ 119   1          return b;
+ 120   1      }
+ 121          
+ 122          // === Desenha a pontua��o ===
+ 123          void drawScore() {
+ 124   1          unsigned char digits[6];  // "12.3km"
+ 125   1          unsigned int d = distancia, i, j;
+ 126   1      
+ 127   1          digits[0] = d / 100;
+ 128   1          digits[1] = (d / 10) % 10;
+ 129   1          digits[2] = 10; // '.'
+ 130   1          digits[3] = d % 10;
+ 131   1          digits[4] = 11; // 'k'
+ 132   1          digits[5] = 12; // 'm'
+ 133   1      
+ 134   1          Glcd_SelectPage1();
+ 135   1          Glcd_CmdWrite(0x40);  // coluna 0
+ 136   1          Glcd_CmdWrite(0xBA);  // linha 0
+ 137   1      
+ 138   1          for(i = 0; i < 6; i++) {
+ 139   2              for(j = 0; j < 6; j++) {
+ 140   3                  Glcd_DataWrite(reverseBits(NUMEROS[digits[i]][j]));
+ 141   3              }
+ 142   2          }
+ 143   1      }
+ 144          
+ 145          // === Move linhas e insere nova no topo ===
+ 146          void shiftDownAndAddNewLine(unsigned char *newLine) {
+ 147   1          int i;
+ 148   1          for(i = 0; i < 10; i++) {
+ 149   2              linha8[i] = linha7[i];
+ 150   2              linha7[i] = linha6[i];
+ 151   2              linha6[i] = linha5[i];
+ 152   2              linha5[i] = linha4[i];
+ 153   2              linha4[i] = linha3[i];
+ 154   2              linha3[i] = linha2[i];
+ 155   2              linha2[i] = linha1[i];
+ 156   2              linha1[i] = newLine[i];
+ 157   2          }
+ 158   1      }
+ 159          
+ 160          // === Atualiza carrinho com bot�es ===
+ 161          void updateCarPosition() {
+ 162   1          static bit btnLeftPrev = 1;
+ 163   1          static bit btnRightPrev = 1;
+ 164   1          
+ 165   1          // === Precisa esperar o bot�o soltar para evitar debounce ===
+ 166   1          
+ 167   1          // Bot�o esquerda:
+ 168   1          if (BTN_LEFT == 0 && btnLeftPrev == 1) {
+ 169   2              carrinhoPos--;
+ 170   2          }
+ 171   1          btnLeftPrev = BTN_LEFT;
+ 172   1      
+ 173   1          // Bot�o direita:
+ 174   1          if (BTN_RIGHT == 0 && btnRightPrev == 1) {
+ 175   2              carrinhoPos++;
+ 176   2          }
+ 177   1          btnRightPrev = BTN_RIGHT;
+ 178   1      }
+C51 COMPILER V9.60.7.0   PROVA                                                             07/22/2025 20:39:34 PAGE 4   
+
+ 179          
+ 180          // === Cria nova linha com carrinho inimigo de tempos em tempos ===
+ 181          void generateNewLine(unsigned char *newLine) {
+ 182   1          int i;
+ 183   1          unsigned char pos;
+ 184   1      
+ 185   1          for(i = 0; i < 10; i++) newLine[i] = 0;
+ 186   1      
+ 187   1          // Seed para criar aleatoriedade
+ 188   1          seed = (seed * 17 + carrinhoPos * 31 + frameCount * 23 + linha2[4]) % 251;
+ 189   1          frameCount++;
+ 190   1      
+ 191   1          // Movimento das paredes
+ 192   1          if ((seed % 5) < 2 && leftWall < 1) leftWall++;
+ 193   1          else if ((seed % 5) > 3 && leftWall > 0) leftWall--;
+ 194   1      
+ 195   1          if ((seed % 7) < 2 && rightWall < 9) rightWall++;
+ 196   1          else if ((seed % 7) > 4 && rightWall > 8) rightWall--;
+ 197   1      
+ 198   1          newLine[leftWall]  = 2;
+ 199   1          newLine[rightWall] = 2;
+ 200   1      
+ 201   1          // Cria carrinho inimigo nas colunas de 3 a 8, para nenhum nascer dentro da parede
+ 202   1          if(frameCount >= (seed % 3) + 5) {
+ 203   2              frameCount = 0;
+ 204   2              pos = 2 + (seed % 6);
+ 205   2              newLine[pos] = 4; 
+ 206   2          }
+ 207   1      
+ 208   1          distancia++;  // 0.1km por linha
+ 209   1      
+ 210   1          // Entra em modo t�nel a partir de 15.0 km
+ 211   1          if(distancia >= 150) {
+ 212   2              modoTunel = 1;
+ 213   2          }
+ 214   1      }
+ 215          
+ 216          // === Redesenha a pista ===
+ 217          void redrawTrack() {
+ 218   1          int i, j;
+ 219   1          unsigned char tempLinha8[10]; // O uso de array tempor�rio � necess�rio para mudan�as de fundo
+             - entre
+ 220   1                                        // pista e t�nel sem gerar erros como deletar o carrinho do jogador ou
+ 221   1                                        // outros problemas de atualiza��o.
+ 222   1      
+ 223   1          Glcd_SelectPage0();
+ 224   1      
+ 225   1          // Primeiras linhas (1 a 7)
+ 226   1          for(j = 0; j < 7; j++) {
+ 227   2              unsigned char *linha;
+ 228   2              unsigned char tempLine[10];
+ 229   2              switch(j) {
+ 230   3                  case 0: linha = linha1; break;
+ 231   3                  case 1: linha = linha2; break;
+ 232   3                  case 2: linha = linha3; break;
+ 233   3                  case 3: linha = linha4; break;
+ 234   3                  case 4: linha = linha5; break;
+ 235   3                  case 5: linha = linha6; break;
+ 236   3                  case 6: linha = linha7; break;
+ 237   3              }
+ 238   2      
+ 239   2              for(i = 0; i < 10; i++) {
+C51 COMPILER V9.60.7.0   PROVA                                                             07/22/2025 20:39:34 PAGE 5   
+
+ 240   3                  tempLine[i] = linha[i];
+ 241   3      
+ 242   3                  // === Modo t�nel ===
+ 243   3                  if (modoTunel) {
+ 244   4                      // Escurecer fundo (0 vira 1)
+ 245   4                      if (tempLine[i] == 0) tempLine[i] = 1;
+ 246   4      
+ 247   4                      // Carrinho inimigo invis�vel, exceto se estiver no cone do farol
+ 248   4                      if (linha[i] == 4) {
+ 249   5                          int visivel = 0;
+ 250   5                          int dist = 7 - j; // dist�ncia at� o carrinho (linha 8)
+ 251   5      
+ 252   5                          if (dist == 1 && i == carrinhoPos) visivel = 1;
+ 253   5                          else if (dist == 2 && i >= carrinhoPos - 1 && i <= carrinhoPos + 1) visivel = 1;
+ 254   5                          else if (dist == 3 && i >= carrinhoPos - 2 && i <= carrinhoPos + 2) visivel = 1;
+ 255   5      
+ 256   5                          if (!visivel) {
+ 257   6                              tempLine[i] = 1;  // escurece
+ 258   6                          }
+ 259   5                      }
+ 260   4      
+ 261   4                      // Farol desenhado na linha 7
+ 262   4                      if(j == 6) {
+ 263   5                          if(i == carrinhoPos)
+ 264   5                              tempLine[i] = 7;
+ 265   5                          else if(tempLine[i] == 7)
+ 266   5                              tempLine[i] = 1;
+ 267   5                      }
+ 268   4                  } else {
+ 269   4                      // Fora do t�nel: remove farol
+ 270   4                      if(tempLine[i] == 7)
+ 271   4                          tempLine[i] = 0;
+ 272   4                  }
+ 273   3              }
+ 274   2      
+ 275   2              Glcd_CmdWrite(0x40);
+ 276   2              Glcd_CmdWrite(0xB8 + j);
+ 277   2              Glcd_PrintLine(tempLine, 10);
+ 278   2          }
+ 279   1      
+ 280   1          // === Linha 8 (jogador) ===
+ 281   1          for(i = 0; i < 10; i++) {
+ 282   2              tempLinha8[i] = linha8[i];
+ 283   2      
+ 284   2              if(modoTunel) {
+ 285   3                  // Escurecer fundo
+ 286   3                  if(tempLinha8[i] == 0) tempLinha8[i] = 1;
+ 287   3      
+ 288   3                  // Esconder carrinhos inimigos
+ 289   3                  if(tempLinha8[i] == 4) tempLinha8[i] = 1;
+ 290   3              }
+ 291   2          }
+ 292   1      
+ 293   1          // Carrinho do jogador
+ 294   1          tempLinha8[carrinhoPos] = modoTunel ? 5 : 3;
+ 295   1          tempLinha8[0] = 2;
+ 296   1          tempLinha8[9] = 2;
+ 297   1      
+ 298   1          Glcd_CmdWrite(0x40);
+ 299   1          Glcd_CmdWrite(0xBF);  // linha 8
+ 300   1          Glcd_PrintLine(tempLinha8, 10);
+ 301   1      
+C51 COMPILER V9.60.7.0   PROVA                                                             07/22/2025 20:39:34 PAGE 6   
+
+ 302   1          drawScore();
+ 303   1      }
+ 304          
+ 305          // === Verifica colis�o ===
+ 306          bit checkCollision() {
+ 307   1          if (linha8[carrinhoPos] == 2) {
+ 308   2              morte = 0;  // parede
+ 309   2              return 1;
+ 310   2          }
+ 311   1          if (linha8[carrinhoPos] == 4) {
+ 312   2              morte = 1;  // carrinho inimigo
+ 313   2              return 1;
+ 314   2          }
+ 315   1          return 0;
+ 316   1      }
+ 317          
+ 318          void vitoriaScreen() {
+ 319   1          code unsigned char vitoriaMsg[10] = {4,5,11,4,3,1,5,3,12,10}; // "VC VENCEU!"
+ 320   1          int j;
+ 321   1          
+ 322   1          Glcd_SelectPage1();
+ 323   1          Glcd_CmdWrite(0x40);
+ 324   1          Glcd_CmdWrite(0xBC);
+ 325   1      
+ 326   1          for(j = 0; j < 10; j++) {
+ 327   2              Glcd_DisplayChar(LETRAS[vitoriaMsg[j]]);
+ 328   2          }
+ 329   1      
+ 330   1          while(1);  // trava o jogo ap�s vit�ria
+ 331   1      }
+ 332          
+ 333          
+ 334          // === Tela de Game Over ===
+ 335          void gameOverScreen() {
+ 336   1          int j;
+ 337   1          code unsigned char msg0[10] = {0,1,2,3,4,5,4,9,7,8}; // ONDEVCVAI?
+ 338   1          code unsigned char msg1[10] = {9,5,7,2,3,1,6,3,10,10}; // ACIDENTE!!
+ 339   1      
+ 340   1          Glcd_SelectPage1();
+ 341   1          Glcd_CmdWrite(0x40);
+ 342   1          Glcd_CmdWrite(0xBC);
+ 343   1      
+ 344   1          for(j = 0; j < 10; j++) {
+ 345   2              if (morte == 0)
+ 346   2                  Glcd_DisplayChar(LETRAS[msg0[j]]);  // mensagem "parede"
+ 347   2              else
+ 348   2                  Glcd_DisplayChar(LETRAS[msg1[j]]);  // mensagem "inimigo"
+ 349   2          }
+ 350   1      
+ 351   1          while(1); // trava o jogo
+ 352   1      }
+ 353          
+ 354          // === MAIN ===
+ 355          void main() {
+ 356   1          idata unsigned char novaLinha[10];
+ 357   1      
+ 358   1          generateNewLine(novaLinha);
+ 359   1          shiftDownAndAddNewLine(novaLinha);
+ 360   1          redrawTrack();
+ 361   1      
+ 362   1          while (1) {
+ 363   2              delay(20);
+C51 COMPILER V9.60.7.0   PROVA                                                             07/22/2025 20:39:34 PAGE 7   
+
+ 364   2              updateCarPosition();
+ 365   2              generateNewLine(novaLinha);
+ 366   2      
+ 367   2              if (distancia >= 201) {
+ 368   3                  vitoriaScreen();
+ 369   3              }
+ 370   2      
+ 371   2              shiftDownAndAddNewLine(novaLinha);
+ 372   2      
+ 373   2              if (checkCollision()) {
+ 374   3                  gameOverScreen();
+ 375   3              }
+ 376   2      
+ 377   2              redrawTrack();
+ 378   2          }
+ 379   1      }
+
+
+MODULE INFORMATION:   STATIC OVERLAYABLE
+   CODE SIZE        =   1607    ----
+   CONSTANT SIZE    =    234    ----
+   XDATA SIZE       =   ----    ----
+   PDATA SIZE       =   ----    ----
+   DATA SIZE        =      8      63
+   IDATA SIZE       =     80      10
+   BIT SIZE         =      3    ----
+END OF MODULE INFORMATION.
+
+
+C51 COMPILATION COMPLETE.  0 WARNING(S),  0 ERROR(S)

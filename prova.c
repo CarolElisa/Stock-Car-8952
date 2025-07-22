@@ -1,17 +1,16 @@
 #include <REGX52.H>
 
 // === Barramento ===
-#define GlcdDataBus  P3
+#define GlcdDataBus  P1
 sbit RS  = P2^0;
 sbit RW  = P2^1;
 sbit EN  = P2^2;
 sbit CS1 = P2^3;
 sbit CS2 = P2^4;
-sbit RST = P2^5;
 
-// === Botões ===
-sbit BTN_LEFT  = P2^6;
-sbit BTN_RIGHT = P2^7;
+// === Botï¿½es ===
+sbit BTN_LEFT  = P3^2;
+sbit BTN_RIGHT = P3^3;
 
 // === Caracteres personalizados ===
 code unsigned char GLYPHS[][6] = {
@@ -37,8 +36,8 @@ code unsigned char LETRAS[13][6] = {
     {0x02, 0x01, 0x59, 0x09, 0x06, 0x00},	// 8 - '?'
     {0x7E, 0x09, 0x09, 0x09, 0x7E, 0x00},	// 9 - 'A'
     {0x00, 0x00, 0x5F, 0x00, 0x00, 0x00},	// 10 - '!' 
-		{0x00, 0x00, 0x00, 0x00, 0x00, 0x00}, // 11 - ' '
-		{0x3F, 0x40, 0x40, 0x40, 0x3F, 0x00}, // 12 - 'U'
+    {0x00, 0x00, 0x00, 0x00, 0x00, 0x00}, // 11 - ' '
+	{0x3F, 0x40, 0x40, 0x40, 0x3F, 0x00}, // 12 - 'U'
 };
 
 code unsigned char NUMEROS[13][6] = {
@@ -68,13 +67,13 @@ unsigned char carrinhoPos = 4;
 unsigned char leftWall = 0;
 unsigned char rightWall = 9;
 
-// === Variáveis auxiliares ===
-unsigned char frameCount = 0;  // para controlar espaçamento dos inimigos
+// === Variï¿½veis auxiliares ===
+unsigned char frameCount = 0;  // para controlar espaï¿½amento dos inimigos
 unsigned char seed = 3;        // semente simples para pseudo-random
 unsigned char morte = 0;       // 0 = parede, 1 = batida
-unsigned int distancia = 0;    // em décimos de km (ex: 12 = 1.2km)
+unsigned int distancia = 0;    // em dï¿½cimos de km (ex: 12 = 1.2km)
 
-// === Túnel ===
+// === Tï¿½nel ===
 bit modoTunel = 0;
 
 // === Delay ===
@@ -112,7 +111,7 @@ void Glcd_PrintLine(unsigned char *line, int length) {
         Glcd_DisplayChar(GLYPHS[line[i]]);
 }
 
-// === Inverte alguns caracteres que estavam sendo mostrados de ponta cabeça ===
+// === Inverte alguns caracteres que estavam sendo mostrados de ponta cabeï¿½a ===
 unsigned char reverseBits(unsigned char b) {
     b = (b & 0xF0) >> 4 | (b & 0x0F) << 4;
     b = (b & 0xCC) >> 2 | (b & 0x33) << 2;
@@ -120,7 +119,7 @@ unsigned char reverseBits(unsigned char b) {
     return b;
 }
 
-// === Desenha a pontuação ===
+// === Desenha a pontuaï¿½ï¿½o ===
 void drawScore() {
     unsigned char digits[6];  // "12.3km"
     unsigned int d = distancia, i, j;
@@ -158,20 +157,20 @@ void shiftDownAndAddNewLine(unsigned char *newLine) {
     }
 }
 
-// === Atualiza carrinho com botões ===
+// === Atualiza carrinho com botï¿½es ===
 void updateCarPosition() {
     static bit btnLeftPrev = 1;
     static bit btnRightPrev = 1;
 		
-		// === Precisa esperar o botão soltar para evitar debounce ===
+		// === Precisa esperar o botï¿½o soltar para evitar debounce ===
 		
-    // Botão esquerda:
+    // Botï¿½o esquerda:
     if (BTN_LEFT == 0 && btnLeftPrev == 1) {
         carrinhoPos--;
     }
     btnLeftPrev = BTN_LEFT;
 
-    // Botão direita:
+    // Botï¿½o direita:
     if (BTN_RIGHT == 0 && btnRightPrev == 1) {
         carrinhoPos++;
     }
@@ -208,7 +207,7 @@ void generateNewLine(unsigned char *newLine) {
 
     distancia++;  // 0.1km por linha
 
-    // Entra em modo túnel a partir de 15.0 km
+    // Entra em modo tï¿½nel a partir de 15.0 km
     if(distancia >= 150) {
         modoTunel = 1;
     }
@@ -217,9 +216,9 @@ void generateNewLine(unsigned char *newLine) {
 // === Redesenha a pista ===
 void redrawTrack() {
     int i, j;
-    unsigned char tempLinha8[10];	// O uso de array temporário é necessário para mudanças de fundo entre
-																	// pista e túnel sem gerar erros como deletar o carrinho do jogador ou
-																	// outros problemas de atualização.
+    unsigned char tempLinha8[10];	// O uso de array temporï¿½rio ï¿½ necessï¿½rio para mudanï¿½as de fundo entre
+																	// pista e tï¿½nel sem gerar erros como deletar o carrinho do jogador ou
+																	// outros problemas de atualizaï¿½ï¿½o.
 
     Glcd_SelectPage0();
 
@@ -240,15 +239,15 @@ void redrawTrack() {
         for(i = 0; i < 10; i++) {
             tempLine[i] = linha[i];
 
-            // === Modo túnel ===
+            // === Modo tï¿½nel ===
             if (modoTunel) {
                 // Escurecer fundo (0 vira 1)
                 if (tempLine[i] == 0) tempLine[i] = 1;
 
-                // Carrinho inimigo invisível, exceto se estiver no cone do farol
+                // Carrinho inimigo invisï¿½vel, exceto se estiver no cone do farol
                 if (linha[i] == 4) {
                     int visivel = 0;
-                    int dist = 7 - j; // distância até o carrinho (linha 8)
+                    int dist = 7 - j; // distï¿½ncia atï¿½ o carrinho (linha 8)
 
                     if (dist == 1 && i == carrinhoPos) visivel = 1;
                     else if (dist == 2 && i >= carrinhoPos - 1 && i <= carrinhoPos + 1) visivel = 1;
@@ -267,7 +266,7 @@ void redrawTrack() {
                         tempLine[i] = 1;
                 }
             } else {
-                // Fora do túnel: remove farol
+                // Fora do tï¿½nel: remove farol
                 if(tempLine[i] == 7)
                     tempLine[i] = 0;
             }
@@ -303,7 +302,7 @@ void redrawTrack() {
     drawScore();
 }
 
-// === Verifica colisão ===
+// === Verifica colisï¿½o ===
 bit checkCollision() {
     if (linha8[carrinhoPos] == 2) {
         morte = 0;  // parede
@@ -328,7 +327,7 @@ void vitoriaScreen() {
         Glcd_DisplayChar(LETRAS[vitoriaMsg[j]]);
     }
 
-    while(1);  // trava o jogo após vitória
+    while(1);  // trava o jogo apï¿½s vitï¿½ria
 }
 
 
@@ -355,7 +354,6 @@ void gameOverScreen() {
 // === MAIN ===
 void main() {
     idata unsigned char novaLinha[10];
-		RST = 1;
 
     generateNewLine(novaLinha);
     shiftDownAndAddNewLine(novaLinha);

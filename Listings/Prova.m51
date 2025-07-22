@@ -1,0 +1,528 @@
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                    07/22/2025  20:39:35  PAGE 1
+
+
+BL51 BANKED LINKER/LOCATER V6.22.4.0, INVOKED BY:
+C:\KEIL_V5\C51\BIN\BL51.EXE .\Objects\prova.obj TO .\Objects\Prova PRINT (.\Listings\Prova.m51) RAMSIZE (256) CODE (0X00
+>> 00-0X1FFF)
+
+
+MEMORY MODEL: SMALL
+
+
+INPUT MODULES INCLUDED:
+  .\Objects\prova.obj (PROVA)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C_STARTUP)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C?CLDOPTR)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C?CSTOPTR)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C?UIDIV)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C?CCASE)
+  C:\KEIL_V5\C51\LIB\C51S.LIB (?C_INIT)
+
+
+LINK MAP OF MODULE:  .\Objects\Prova (PROVA)
+
+
+            TYPE    BASE      LENGTH    RELOCATION   SEGMENT NAME
+            -----------------------------------------------------
+
+            * * * * * * *   D A T A   M E M O R Y   * * * * * * *
+            REG     0000H     0008H     ABSOLUTE     "REG BANK 0"
+            DATA    0008H     0008H     UNIT         ?DT?PROVA
+            IDATA   0010H     000AH     UNIT         _IDATA_GROUP_
+                    001AH     0006H                  *** GAP ***
+            BIT     0020H.0   0000H.3   UNIT         ?BI?PROVA
+                    0020H.3   0000H.5                *** GAP ***
+            DATA    0021H     002BH     UNIT         _DATA_GROUP_
+            IDATA   004CH     0050H     UNIT         ?ID?PROVA
+            IDATA   009CH     0001H     UNIT         ?STACK
+
+            * * * * * * *   C O D E   M E M O R Y   * * * * * * *
+            CODE    0000H     0003H     ABSOLUTE     
+                    0003H     07FDH                  *** GAP ***
+            CODE    0800H     0234H     UNIT         ?PR?REDRAWTRACK?PROVA
+            CODE    0A34H     0114H     UNIT         ?PR?_GENERATENEWLINE?PROVA
+            CODE    0B48H     00EAH     UNIT         ?CO?PROVA
+            CODE    0C32H     00CAH     UNIT         ?C?LIB_CODE
+            CODE    0CFCH     0098H     UNIT         ?PR?DRAWSCORE?PROVA
+            CODE    0D94H     008CH     UNIT         ?C_C51STARTUP
+            CODE    0E20H     0083H     UNIT         ?PR?_SHIFTDOWNANDADDNEWLINE?PROVA
+            CODE    0EA3H     004CH     UNIT         ?PR?_GLCD_PRINTLINE?PROVA
+            CODE    0EEFH     0044H     UNIT         ?PR?_GLCD_DISPLAYCHAR?PROVA
+            CODE    0F33H     003DH     UNIT         ?PR?GAMEOVERSCREEN?PROVA
+            CODE    0F70H     0034H     UNIT         ?PR?MAIN?PROVA
+            CODE    0FA4H     002FH     UNIT         ?PR?VITORIASCREEN?PROVA
+            CODE    0FD3H     002EH     UNIT         ?PR?_DELAY?PROVA
+            CODE    1001H     002CH     UNIT         ?PR?_REVERSEBITS?PROVA
+            CODE    102DH     001DH     UNIT         ?C_INITSEG
+            CODE    104AH     001AH     UNIT         ?PR?CHECKCOLLISION?PROVA
+            CODE    1064H     0019H     UNIT         ?PR?UPDATECARPOSITION?PROVA
+            CODE    107DH     0011H     UNIT         ?PR?_GLCD_CMDWRITE?PROVA
+            CODE    108EH     000CH     UNIT         ?PR?_GLCD_DATAWRITE?PROVA
+            CODE    109AH     0005H     UNIT         ?PR?GLCD_SELECTPAGE0?PROVA
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  07/22/2025  20:39:35  PAGE 2
+
+
+            CODE    109FH     0005H     UNIT         ?PR?GLCD_SELECTPAGE1?PROVA
+
+
+
+OVERLAY MAP OF MODULE:   .\Objects\Prova (PROVA)
+
+
+SEGMENT                                     DATA_GROUP          IDATA_GROUP
+  +--> CALLED SEGMENT                     START    LENGTH     START    LENGTH
+-----------------------------------------------------------------------------
+?C_C51STARTUP                             -----    -----      -----    -----
+  +--> ?PR?MAIN?PROVA
+  +--> ?C_INITSEG
+
+?PR?MAIN?PROVA                            -----    -----      0010H    000AH
+  +--> ?PR?_GENERATENEWLINE?PROVA
+  +--> ?PR?_SHIFTDOWNANDADDNEWLINE?PROVA
+  +--> ?PR?REDRAWTRACK?PROVA
+  +--> ?PR?_DELAY?PROVA
+  +--> ?PR?UPDATECARPOSITION?PROVA
+  +--> ?PR?VITORIASCREEN?PROVA
+  +--> ?PR?CHECKCOLLISION?PROVA
+  +--> ?PR?GAMEOVERSCREEN?PROVA
+
+?PR?_GENERATENEWLINE?PROVA                0021H    0003H      -----    -----
+
+?PR?_SHIFTDOWNANDADDNEWLINE?PROVA         0021H    0003H      -----    -----
+
+?PR?REDRAWTRACK?PROVA                     0021H    001FH      -----    -----
+  +--> ?PR?GLCD_SELECTPAGE0?PROVA
+  +--> ?PR?_GLCD_CMDWRITE?PROVA
+  +--> ?PR?_GLCD_PRINTLINE?PROVA
+  +--> ?PR?DRAWSCORE?PROVA
+
+?PR?_GLCD_CMDWRITE?PROVA                  -----    -----      -----    -----
+  +--> ?PR?GLCD_SELECTPAGE1?PROVA
+  +--> ?PR?_DELAY?PROVA
+
+?PR?_GLCD_PRINTLINE?PROVA                 0040H    0007H      -----    -----
+  +--> ?CO?PROVA
+  +--> ?PR?_GLCD_DISPLAYCHAR?PROVA
+
+?PR?_GLCD_DISPLAYCHAR?PROVA               0047H    0005H      -----    -----
+  +--> ?CO?PROVA
+  +--> ?PR?_GLCD_DATAWRITE?PROVA
+
+?PR?_GLCD_DATAWRITE?PROVA                 -----    -----      -----    -----
+  +--> ?PR?_DELAY?PROVA
+
+?PR?DRAWSCORE?PROVA                       0040H    000AH      -----    -----
+  +--> ?PR?_GLCD_CMDWRITE?PROVA
+  +--> ?CO?PROVA
+  +--> ?PR?_REVERSEBITS?PROVA
+  +--> ?PR?_GLCD_DATAWRITE?PROVA
+
+?PR?VITORIASCREEN?PROVA                   0021H    0002H      -----    -----
+  +--> ?PR?_GLCD_CMDWRITE?PROVA
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  07/22/2025  20:39:35  PAGE 3
+
+
+  +--> ?CO?PROVA
+  +--> ?PR?_GLCD_DISPLAYCHAR?PROVA
+
+?PR?GAMEOVERSCREEN?PROVA                  0021H    0002H      -----    -----
+  +--> ?PR?_GLCD_CMDWRITE?PROVA
+  +--> ?CO?PROVA
+  +--> ?PR?_GLCD_DISPLAYCHAR?PROVA
+
+
+
+SYMBOL TABLE OF MODULE:  .\Objects\Prova (PROVA)
+
+  VALUE           TYPE          NAME
+  ----------------------------------
+
+  -------         MODULE        PROVA
+  C:0000H         SYMBOL        _ICE_DUMMY_
+  C:1082H         PUBLIC        _Glcd_CmdWrite
+  D:0090H         PUBLIC        P1
+  C:0800H         PUBLIC        redrawTrack
+  D:00A0H         PUBLIC        P2
+  D:00B0H         PUBLIC        P3
+  C:0A3AH         PUBLIC        _generateNewLine
+  D:0008H         PUBLIC        carrinhoPos
+  C:0FDBH         PUBLIC        _delay
+  B:00A0H.2       PUBLIC        EN
+  C:0E26H         PUBLIC        _shiftDownAndAddNewLine
+  C:1001H         PUBLIC        _reverseBits
+  D:0009H         PUBLIC        frameCount
+  C:0F33H         PUBLIC        gameOverScreen
+  D:000AH         PUBLIC        seed
+  B:00A0H.0       PUBLIC        RS
+  C:0F70H         PUBLIC        main
+  B:00A0H.1       PUBLIC        RW
+  D:000BH         PUBLIC        morte
+  C:0BC6H         PUBLIC        NUMEROS
+  C:0CFCH         PUBLIC        drawScore
+  C:104AH         PUBLIC        checkCollision
+  D:000CH         PUBLIC        rightWall
+  D:000DH         PUBLIC        distancia
+  C:0F01H         PUBLIC        _Glcd_DisplayChar
+  B:0020H.2       PUBLIC        modoTunel
+  D:000FH         PUBLIC        leftWall
+  I:004CH         PUBLIC        linha1
+  I:0056H         PUBLIC        linha2
+  I:0060H         PUBLIC        linha3
+  I:006AH         PUBLIC        linha4
+  I:0074H         PUBLIC        linha5
+  I:007EH         PUBLIC        linha6
+  B:00B0H.3       PUBLIC        BTN_RIGHT
+  I:0088H         PUBLIC        linha7
+  I:0092H         PUBLIC        linha8
+  B:00A0H.3       PUBLIC        CS1
+  B:00A0H.4       PUBLIC        CS2
+  C:0B78H         PUBLIC        LETRAS
+  C:0B48H         PUBLIC        GLYPHS
+  C:0FA4H         PUBLIC        vitoriaScreen
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  07/22/2025  20:39:35  PAGE 4
+
+
+  C:108EH         PUBLIC        _Glcd_DataWrite
+  C:109AH         PUBLIC        Glcd_SelectPage0
+  C:109FH         PUBLIC        Glcd_SelectPage1
+  B:00B0H.2       PUBLIC        BTN_LEFT
+  C:0EA9H         PUBLIC        _Glcd_PrintLine
+  C:1064H         PUBLIC        updateCarPosition
+  -------         PROC          L?0130
+  -------         ENDPROC       L?0130
+  -------         PROC          _DELAY
+  D:0006H         SYMBOL        t
+  -------         DO            
+  D:0004H         SYMBOL        i
+  D:0002H         SYMBOL        j
+  -------         ENDDO         
+  C:0FDBH         LINE#         80
+  C:0FDBH         LINE#         82
+  C:0FEBH         LINE#         83
+  C:1000H         LINE#         84
+  -------         ENDPROC       _DELAY
+  -------         PROC          GLCD_SELECTPAGE0
+  C:109AH         LINE#         87
+  -------         ENDPROC       GLCD_SELECTPAGE0
+  -------         PROC          GLCD_SELECTPAGE1
+  C:109FH         LINE#         88
+  -------         ENDPROC       GLCD_SELECTPAGE1
+  C:107DH         SYMBOL        L?0129
+  -------         PROC          L?0128
+  -------         ENDPROC       L?0128
+  C:107DH         SYMBOL        L?0129
+  -------         PROC          _GLCD_CMDWRITE
+  D:0007H         SYMBOL        cmd
+  C:1082H         LINE#         90
+  C:1082H         LINE#         91
+  C:1084H         LINE#         92
+  C:1086H         LINE#         93
+  -------         ENDPROC       _GLCD_CMDWRITE
+  -------         PROC          _GLCD_DATAWRITE
+  D:0007H         SYMBOL        dat
+  C:108EH         LINE#         96
+  C:108EH         LINE#         97
+  C:1090H         LINE#         98
+  C:1092H         LINE#         99
+  -------         ENDPROC       _GLCD_DATAWRITE
+  C:0EFCH         SYMBOL        L?0127
+  -------         PROC          L?0126
+  -------         ENDPROC       L?0126
+  C:0EFCH         SYMBOL        L?0127
+  -------         PROC          _GLCD_DISPLAYCHAR
+  D:0047H         SYMBOL        symbol
+  -------         DO            
+  D:004AH         SYMBOL        i
+  -------         ENDDO         
+  C:0F01H         LINE#         102
+  C:0F07H         LINE#         104
+  C:0F0CH         LINE#         105
+  C:0F32H         LINE#         106
+  -------         ENDPROC       _GLCD_DISPLAYCHAR
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  07/22/2025  20:39:35  PAGE 5
+
+
+  -------         PROC          L?0131
+  -------         ENDPROC       L?0131
+  -------         PROC          _GLCD_PRINTLINE
+  D:0040H         SYMBOL        line
+  D:0043H         SYMBOL        length
+  -------         DO            
+  D:0045H         SYMBOL        i
+  -------         ENDDO         
+  C:0EA9H         LINE#         108
+  C:0EB3H         LINE#         110
+  C:0EC9H         LINE#         111
+  C:0EEEH         LINE#         112
+  -------         ENDPROC       _GLCD_PRINTLINE
+  -------         PROC          _REVERSEBITS
+  D:0007H         SYMBOL        b
+  C:1001H         LINE#         115
+  C:1001H         LINE#         116
+  C:1010H         LINE#         117
+  C:1020H         LINE#         118
+  C:102CH         LINE#         119
+  C:102CH         LINE#         120
+  -------         ENDPROC       _REVERSEBITS
+  -------         PROC          DRAWSCORE
+  -------         DO            
+  D:0040H         SYMBOL        digits
+  D:0002H         SYMBOL        d
+  D:0046H         SYMBOL        i
+  D:0048H         SYMBOL        j
+  -------         ENDDO         
+  C:0CFCH         LINE#         123
+  C:0CFCH         LINE#         125
+  C:0D00H         LINE#         127
+  C:0D0DH         LINE#         128
+  C:0D21H         LINE#         129
+  C:0D24H         LINE#         130
+  C:0D31H         LINE#         131
+  C:0D34H         LINE#         132
+  C:0D37H         LINE#         134
+  C:0D37H         LINE#         135
+  C:0D3AH         LINE#         136
+  C:0D3FH         LINE#         138
+  C:0D44H         LINE#         139
+  C:0D49H         LINE#         140
+  C:0D71H         LINE#         141
+  C:0D82H         LINE#         142
+  C:0D93H         LINE#         143
+  -------         ENDPROC       DRAWSCORE
+  -------         PROC          L?0133
+  -------         ENDPROC       L?0133
+  -------         PROC          _SHIFTDOWNANDADDNEWLINE
+  D:0021H         SYMBOL        newLine
+  -------         DO            
+  D:0006H         SYMBOL        i
+  -------         ENDDO         
+  C:0E26H         LINE#         146
+  C:0E2CH         LINE#         148
+  C:0E2FH         LINE#         149
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  07/22/2025  20:39:35  PAGE 6
+
+
+  C:0E3BH         LINE#         150
+  C:0E47H         LINE#         151
+  C:0E53H         LINE#         152
+  C:0E5FH         LINE#         153
+  C:0E6BH         LINE#         154
+  C:0E77H         LINE#         155
+  C:0E83H         LINE#         156
+  C:0E97H         LINE#         157
+  C:0EA2H         LINE#         158
+  -------         ENDPROC       _SHIFTDOWNANDADDNEWLINE
+  -------         PROC          UPDATECARPOSITION
+  -------         DO            
+  B:0020H.0       SYMBOL        btnLeftPrev
+  B:0020H.1       SYMBOL        btnRightPrev
+  -------         ENDDO         
+  C:1064H         LINE#         161
+  C:1064H         LINE#         168
+  C:106AH         LINE#         169
+  C:106CH         LINE#         170
+  C:106CH         LINE#         171
+  C:1070H         LINE#         174
+  C:1076H         LINE#         175
+  C:1078H         LINE#         176
+  C:1078H         LINE#         177
+  C:107CH         LINE#         178
+  -------         ENDPROC       UPDATECARPOSITION
+  -------         PROC          L?0132
+  -------         ENDPROC       L?0132
+  -------         PROC          _GENERATENEWLINE
+  D:0021H         SYMBOL        newLine
+  -------         DO            
+  D:0006H         SYMBOL        i
+  D:0007H         SYMBOL        pos
+  -------         ENDDO         
+  C:0A3AH         LINE#         181
+  C:0A40H         LINE#         185
+  C:0A5CH         LINE#         188
+  C:0A8EH         LINE#         189
+  C:0A90H         LINE#         192
+  C:0AA9H         LINE#         193
+  C:0AB8H         LINE#         195
+  C:0AD1H         LINE#         196
+  C:0AE0H         LINE#         198
+  C:0AF1H         LINE#         199
+  C:0AFCH         LINE#         202
+  C:0B17H         LINE#         203
+  C:0B1AH         LINE#         204
+  C:0B24H         LINE#         205
+  C:0B34H         LINE#         206
+  C:0B34H         LINE#         208
+  C:0B3CH         LINE#         211
+  C:0B45H         LINE#         212
+  C:0B47H         LINE#         213
+  C:0B47H         LINE#         214
+  -------         ENDPROC       _GENERATENEWLINE
+  -------         PROC          REDRAWTRACK
+  -------         DO            
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  07/22/2025  20:39:35  PAGE 7
+
+
+  D:0021H         SYMBOL        i
+  D:0023H         SYMBOL        j
+  D:0025H         SYMBOL        tempLinha8
+  -------         DO            
+  D:002FH         SYMBOL        linha
+  D:0032H         SYMBOL        tempLine
+  -------         DO            
+  D:003CH         SYMBOL        visivel
+  D:003EH         SYMBOL        dist
+  -------         ENDDO         
+  -------         ENDDO         
+  -------         ENDDO         
+  C:0800H         LINE#         217
+  C:0800H         LINE#         223
+  C:0803H         LINE#         226
+  C:0808H         LINE#         229
+  C:082AH         LINE#         230
+  C:0835H         LINE#         231
+  C:0840H         LINE#         232
+  C:084BH         LINE#         233
+  C:0856H         LINE#         234
+  C:0861H         LINE#         235
+  C:086CH         LINE#         236
+  C:0875H         LINE#         237
+  C:0875H         LINE#         239
+  C:087AH         LINE#         240
+  C:0892H         LINE#         243
+  C:0898H         LINE#         245
+  C:08A1H         LINE#         248
+  C:08B7H         LINE#         249
+  C:08BBH         LINE#         250
+  C:08C7H         LINE#         252
+  C:08DCH         LINE#         253
+  C:0919H         LINE#         254
+  C:0957H         LINE#         256
+  C:095DH         LINE#         257
+  C:0964H         LINE#         258
+  C:0964H         LINE#         259
+  C:0964H         LINE#         262
+  C:096CH         LINE#         263
+  C:0975H         LINE#         264
+  C:097EH         LINE#         265
+  C:0987H         LINE#         266
+  C:0989H         LINE#         267
+  C:0989H         LINE#         268
+  C:098BH         LINE#         270
+  C:0994H         LINE#         271
+  C:0996H         LINE#         272
+  C:0996H         LINE#         273
+  C:09A7H         LINE#         275
+  C:09ACH         LINE#         276
+  C:09B4H         LINE#         277
+  C:09BBH         LINE#         278
+  C:09D1H         LINE#         281
+  C:09D6H         LINE#         282
+  C:09E4H         LINE#         284
+  C:09E7H         LINE#         286
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  07/22/2025  20:39:35  PAGE 8
+
+
+  C:09F1H         LINE#         289
+  C:09FCH         LINE#         290
+  C:09FCH         LINE#         291
+  C:0A0AH         LINE#         294
+  C:0A1AH         LINE#         295
+  C:0A1DH         LINE#         296
+  C:0A20H         LINE#         298
+  C:0A25H         LINE#         299
+  C:0A2AH         LINE#         300
+  C:0A31H         LINE#         302
+  -------         ENDPROC       REDRAWTRACK
+  -------         PROC          CHECKCOLLISION
+  C:104AH         LINE#         306
+  C:104AH         LINE#         307
+  C:1054H         LINE#         308
+  C:1057H         LINE#         309
+  C:1059H         LINE#         310
+  C:1059H         LINE#         311
+  C:105DH         LINE#         312
+  C:1060H         LINE#         313
+  C:1062H         LINE#         314
+  C:1062H         LINE#         315
+  C:1063H         LINE#         316
+  -------         ENDPROC       CHECKCOLLISION
+  -------         PROC          VITORIASCREEN
+  -------         DO            
+  C:0C14H         SYMBOL        vitoriaMsg
+  D:0021H         SYMBOL        j
+  -------         ENDDO         
+  C:0FA4H         LINE#         318
+  C:0FA4H         LINE#         322
+  C:0FA4H         LINE#         323
+  C:0FA7H         LINE#         324
+  C:0FACH         LINE#         326
+  C:0FB1H         LINE#         327
+  C:0FBEH         LINE#         328
+  C:0FD1H         LINE#         330
+  -------         ENDPROC       VITORIASCREEN
+  -------         PROC          GAMEOVERSCREEN
+  -------         DO            
+  D:0021H         SYMBOL        j
+  C:0C1EH         SYMBOL        msg0
+  C:0C28H         SYMBOL        msg1
+  -------         ENDDO         
+  C:0F33H         LINE#         335
+  C:0F33H         LINE#         340
+  C:0F33H         LINE#         341
+  C:0F36H         LINE#         342
+  C:0F3BH         LINE#         344
+  C:0F40H         LINE#         345
+  C:0F44H         LINE#         346
+  C:0F4EH         LINE#         348
+  C:0F5BH         LINE#         349
+  C:0F6EH         LINE#         351
+  -------         ENDPROC       GAMEOVERSCREEN
+  -------         PROC          MAIN
+  -------         DO            
+BL51 BANKED LINKER/LOCATER V6.22.4.0                                                  07/22/2025  20:39:35  PAGE 9
+
+
+  I:0010H         SYMBOL        novaLinha
+  -------         ENDDO         
+  C:0F70H         LINE#         355
+  C:0F70H         LINE#         358
+  C:0F73H         LINE#         359
+  C:0F76H         LINE#         360
+  C:0F79H         LINE#         362
+  C:0F79H         LINE#         363
+  C:0F80H         LINE#         364
+  C:0F83H         LINE#         365
+  C:0F86H         LINE#         367
+  C:0F91H         LINE#         368
+  C:0F94H         LINE#         369
+  C:0F94H         LINE#         371
+  C:0F97H         LINE#         373
+  C:0F9CH         LINE#         374
+  C:0F9FH         LINE#         375
+  C:0F9FH         LINE#         377
+  C:0FA2H         LINE#         378
+  -------         ENDPROC       MAIN
+  -------         ENDMOD        PROVA
+
+  -------         MODULE        ?C?CLDOPTR
+  C:0C32H         PUBLIC        ?C?CLDOPTR
+  -------         ENDMOD        ?C?CLDOPTR
+
+  -------         MODULE        ?C?CSTOPTR
+  C:0C5FH         PUBLIC        ?C?CSTOPTR
+  -------         ENDMOD        ?C?CSTOPTR
+
+  -------         MODULE        ?C?UIDIV
+  C:0C81H         PUBLIC        ?C?UIDIV
+  -------         ENDMOD        ?C?UIDIV
+
+  -------         MODULE        ?C?CCASE
+  C:0CD6H         PUBLIC        ?C?CCASE
+  -------         ENDMOD        ?C?CCASE
+
+******************************************************************************
+* RESTRICTED VERSION WITH 0800H BYTE CODE SIZE LIMIT; USED: 074DH BYTE (91%) *
+******************************************************************************
+
+Program Size: data=150.3 xdata=0 code=2215
+LINK/LOCATE RUN COMPLETE.  0 WARNING(S),  0 ERROR(S)
