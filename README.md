@@ -1,5 +1,13 @@
 # Stock-Car-8952
 
+Projeto Final 1 do Curso Projetos de Sistemas Computacionais Embarcados
+
+Departamento de Computação - UFSCar
+
+Professor Dr. Emerson Carlos Pedrino
+
+---
+
 Este projeto implementa um jogo de Stock Car em linguagem C para microcontroladores 8952, com exibição gráfica utilizando um display gráfico LCD (GLCD) compatível com o controlador KS0108.
 
 O jogador controla um carrinho que percorre uma pista e precisa desviar de veículos inimigos e bordas da estrada. À medida que a distância aumenta, um modo "túnel" é ativado, reduzindo a visibilidade e introduzindo um novo desafio ao jogador.
