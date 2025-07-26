@@ -1,10 +1,13 @@
 # Stock-Car-8952
 
-Projeto Final 1 do Curso Projetos de Sistemas Computacionais Embarcados
+## Informações do Projeto
 
-Departamento de Computação - UFSCar
-
-Professor Dr. Emerson Carlos Pedrino
+|               |                                         |
+| :------------ | :-------------------------------------- |
+| **Matéria:** | Projeto de Sistemas Computacionais Embarcados                                   |
+| **Professor:** | Dr. Emerson Carlos Pedrino                                                    |
+| **Grupo:** | Gabriel Andreazi Bertho - RA 790780 e Caroline Elisa Duarte de Souza - RA 795565  |
+| **Universidade:** | Universidade Federal de São Carlos                                         |
 
 ---
 
